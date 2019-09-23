@@ -1,0 +1,35 @@
+<?php
+
+function telegram_notification_schema(){
+  $schema['tBot_node_referrer'] = array(
+    'description' => 'In this DB saved all subscribers.',
+    'fields' => array(
+      'id' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'description' => 'The telegram UUID.',
+      ),
+      /*'boolSend' => array(
+        'type' => 'bool',
+        'default' => 'TRUE',
+        'description' => 'The module name',
+      ),
+      'command' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'description' => 'The module command',
+      ),
+      'version' => array(
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The module version',
+      ),*/
+    ),
+  );
+
+  return $schema;
+}

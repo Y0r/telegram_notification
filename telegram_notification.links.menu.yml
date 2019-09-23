@@ -1,0 +1,5 @@
+telegram_notification.main_link:
+  title: 'Telegram Notifications'
+  description: 'Provides API to sending your site data in Telegram Bot'
+  parent: system.admin_config_system
+  route_name: botform.config

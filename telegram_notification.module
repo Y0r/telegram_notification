@@ -1,0 +1,53 @@
+<?php
+
+/**
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * @param $form
+ * Implements hook_form_FORM_ID_alter()
+ */
+function telegram_notification_form_contact_message_contact_us_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id){
+  $form['actions']['submit']['#submit'][] = '_telegram_notification_form_submit';
+}
+
+
+/**
+ * @param $form
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ * Callback telegram_notification
+ */
+function _telegram_notification_form_submit(&$form, \Drupal\Core\Form\FormStateInterface $form_state){
+  
+  # Telegram data
+  $telegram_token = 'bot869053827:AAFLUqQPDNdLLT5epHMV7H7JJZhPie_YM24'; // Ваш токен, который строится по шаблону bot+token
+  $telegram_id_chat = [
+    '560089002',
+    '517956397',
+  ];
+  
+  foreach ( $telegram_id_chat as $id) {
+    if(!empty($telegram_token) && !empty($id)){
+      # Form data
+      $data = $form_state->getValues();
+      $data_result = array(
+        'name'    => '<b>Имя:</b> ' .$data['name'],
+        'email'   => '<b>Email:</b> ' .$data['mail'],
+        'title'   => '<b>Тема:</b> ' .$data['subject'][0]['value'],
+        'message' => '<b>Сообщение:</b> ' .$data['message'][0]['value']
+      );
+    
+      # Send message
+      $message = implode($data_result, '%0A');
+      $send_message = fopen("https://api.telegram.org/{$telegram_token}/sendMessage?chat_id={$id}&parse_mode=html&text={$message}","r");
+    
+      if($send_message){
+        drupal_set_message('Сообщение успешно отправлено в Telegram');
+      }else{
+        drupal_set_message('Сообщение не отправлено в Telegram', 'error');
+      }
+    }else{
+      drupal_set_message('Сообщение не возможно отправить, отсутсвует toke или id_chat', 'error');
+    }
+  }
+  
+}

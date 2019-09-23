@@ -1,0 +1,4 @@
+name: Telegram Notification
+description: This module use TelegramAPI for sending information from your site.
+core: 8.x
+type: module
