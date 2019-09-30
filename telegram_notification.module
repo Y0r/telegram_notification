@@ -1,5 +1,39 @@
 <?php
 
+function botSendMessage($telegram_token, $telegram_id_chat, $message) {
+  if(!empty($telegram_token) && !empty($telegram_id_chat)){
+    # Send message
+    $message = implode($message, '%0A');
+    $send_message = fopen("https://api.telegram.org/{$telegram_token}/sendMessage?chat_id={$telegram_id_chat}&parse_mode=html&text={$message}","r");
+    
+    if($send_message){
+      drupal_set_message('Сообщение успешно отправлено в Telegram');
+    }else{
+      drupal_set_message('Сообщение не отправлено в Telegram', 'error');
+    }
+  }else{
+    drupal_set_message('Сообщение не возможно отправить, отсутсвует token или id_chat', 'error');
+  }
+}
+
+function botSendMessageMultiple($telegram_token, $telegram_id_chat, $message) {
+  foreach ( $telegram_id_chat as $id) {
+    if(!empty($telegram_token) && !empty($id)){
+      # Send message
+      $message = implode($message, '%0A');
+      $send_message = fopen("https://api.telegram.org/{$telegram_token}/sendMessage?chat_id={$id}&parse_mode=html&text={$message}","r");
+      
+      if($send_message){
+        drupal_set_message('Сообщение успешно отправлено в Telegram');
+      }else{
+        drupal_set_message('Сообщение не отправлено в Telegram', 'error');
+      }
+    }else{
+      drupal_set_message('Сообщение не возможно отправить, отсутсвует token или id_chat', 'error');
+    }
+  }
+}
+
 /**
  * @param $form
  * @param \Drupal\Core\Form\FormStateInterface $form_state
@@ -49,5 +83,4 @@ function _telegram_notification_form_submit(&$form, \Drupal\Core\Form\FormStateI
       drupal_set_message('Сообщение не возможно отправить, отсутсвует toke или id_chat', 'error');
     }
   }
-  
 }

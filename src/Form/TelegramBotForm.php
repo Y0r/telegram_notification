@@ -50,7 +50,7 @@ class TelegramBotForm extends ConfigFormBase {
       '#description' => "Telegram bot token in format: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11. How create bot and get token, read more about <a href='https://core.telegram.org/bots#6-botfather'>BotFather</a>",
     ];
     
-    
+    //TODO think about chats manager
     
     return parent::buildForm($form, $form_state);
   }
@@ -60,6 +60,8 @@ class TelegramBotForm extends ConfigFormBase {
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
   
+    //TODO add validations criteria
+    
     //$config = $this->config('tnotify.config');
     
     if (substr($form_state->getValue('bot_token'), 0, 3) == "bot") {

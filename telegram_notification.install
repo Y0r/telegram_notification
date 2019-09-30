@@ -10,26 +10,32 @@ function telegram_notification_schema(){
         'not null' => TRUE,
         'description' => 'The telegram UUID.',
       ),
-      /*'boolSend' => array(
-        'type' => 'bool',
-        'default' => 'TRUE',
-        'description' => 'The module name',
+      'boolSend' => array(
+        'type' => 'int',
+        'default' => '1',
+        'not null' => TRUE,
+        'length' => '1',
+        'description' => 'If user subscribe - send message',
       ),
-      'command' => array(
+      'userName' => array(
         'type' => 'varchar',
         'length' => '255',
         'not null' => TRUE,
-        'description' => 'The module command',
+        'description' => 'User name from telegram obj.',
       ),
-      'version' => array(
-        'type' => 'varchar',
-        'length' => '255',
-        'not null' => TRUE,
-        'default' => '',
-        'description' => 'The module version',
-      ),*/
     ),
   );
 
   return $schema;
 }
+
+/*function telegram_notification_install(){
+  $fields = array(
+    'id' => '560089002',
+    'boolSend' => '1',
+    'userName' => 'admin',
+  );
+  db_insert('tBot_node_referrer')
+    ->fields($fields)
+    ->execute();
+}*/
