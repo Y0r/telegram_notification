@@ -38,7 +38,7 @@ class TelegramBotForm extends ConfigFormBase {
     
     $form['settings'] = [
       '#type' => 'details',
-      '#title' => $this->t('Your chat details:'),
+      '#title' => $this->t('Chat settings:'),
       '#open' => TRUE,
     ];
     
@@ -50,7 +50,18 @@ class TelegramBotForm extends ConfigFormBase {
       '#description' => "Telegram bot token in format: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11. How create bot and get token, read more about <a href='https://core.telegram.org/bots#6-botfather'>BotFather</a>",
     ];
     
-    //TODO think about chats manager
+    $form['config'] = [
+      '#type' => 'details',
+      '#title' => $this->t('Contact forms configurations:'),
+      '#open' => FALSE,
+    ];
+    
+    $form['config']['cid'] = [
+      '#type' => 'select',
+      '#title' => 'Select contact form:',
+      '#options' => \Drupal::entityQuery('contact_form')->execute(),
+      '#default_value' => $config->get('cid'),
+    ];
     
     return parent::buildForm($form, $form_state);
   }
@@ -85,6 +96,7 @@ class TelegramBotForm extends ConfigFormBase {
 
     $config
       ->set('bot_token', $form_state->getValue('bot_token'))
+      ->set('cid', $form_state->getValue('cid'))
       ->save();
     
     parent::submitForm($form, $form_state);
