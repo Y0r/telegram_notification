@@ -41,8 +41,9 @@ function botSendMessageMultiple($telegram_token, $telegram_id_chat, $message) {
  * Implements hook_form_FORM_ID_alter()
  */
 function telegram_notification_form_contact_message_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  drupal_set_message($form_id);
   $cid = \Drupal::config('tnotify.config')->get('cid');
-  if ($form_id == $cid) {
+  if ($form_id == "contact_message_{$cid}_form") {
     $form['actions']['submit']['#submit'][] = '_telegram_notification_form_submit';
   }
 }
