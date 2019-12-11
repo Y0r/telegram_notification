@@ -6,10 +6,11 @@ use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Config\ConfigFactoryInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+
 /**
  * Class ConfigurationForm.
  *
- * @package Drupal\pwa\Form
+ * @package Drupal\telegram_notification\Form
  */
 class TelegramBotForm extends ConfigFormBase {
   
@@ -17,9 +18,7 @@ class TelegramBotForm extends ConfigFormBase {
    * {@inheritdoc}
    */
   public static function create(ContainerInterface $container) {
-    return new static(
-      $container->get('config.factory')
-    );
+    return new static($container->get('config.factory'));
   }
   
   /**
@@ -50,6 +49,20 @@ class TelegramBotForm extends ConfigFormBase {
       '#description' => "Telegram bot token in format: 123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11. How create bot and get token, read more about <a href='https://core.telegram.org/bots#6-botfather'>BotFather</a>",
     ];
     
+    $form['settings']['chat_id'] = [
+      '#type' => 'textfield',
+      '#title' => 'Telegram ChatID:',
+      '#required' => FALSE,
+      '#default_value' => $config->get('chat_id'),
+      '#description' => "ChatID will be added automatically. Write to your bot anything message.",
+    ];
+    
+    $form['settings']['options']['reset'] = [
+      '#type' => 'submit',
+      '#value' => t('Reset'),
+      '#submit' => array('resetChatID'),
+    ];
+    
     $form['config'] = [
       '#type' => 'details',
       '#title' => $this->t('Contact forms configurations:'),
@@ -62,6 +75,7 @@ class TelegramBotForm extends ConfigFormBase {
       '#options' => \Drupal::entityQuery('contact_form')->execute(),
       '#default_value' => $config->get('cid'),
     ];
+    
     
     return parent::buildForm($form, $form_state);
   }
@@ -129,5 +143,9 @@ class TelegramBotForm extends ConfigFormBase {
   
   protected function getEditableConfigNames() {
     return ['tnotify.config'];
+  }
+  
+  function resetChatID($form, &$form_state){
+    return TRUE;
   }
 }
