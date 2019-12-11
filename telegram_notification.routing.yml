@@ -2,6 +2,14 @@ botform.config:
   path: '/admin/config/system/t-notify'
   defaults:
     _form: '\Drupal\telegram_notification\Form\TelegramBotForm'
-    _title: 'Telegram Notification'
+    _title: 'T-Notification Configuration'
+  requirements:
+    _permission: 'access content'
+
+botform.content.config:
+  path: '/admin/config/system/t-notify/content'
+  defaults:
+    _form: '\Drupal\telegram_notification\Form\TelegramBotContentForm'
+    _title: 'T-Notification Content Management'
   requirements:
     _permission: 'access content'
